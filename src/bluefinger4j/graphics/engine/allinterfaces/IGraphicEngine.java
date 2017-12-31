@@ -25,9 +25,9 @@
  *OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package bluefinger4j.engine.allinterfaces;
+package bluefinger4j.graphics.engine.allinterfaces;
 
-import bluefinger4j.engine.allclasses.GraphicEngine;
+import bluefinger4j.graphics.engine.allclasses.GraphicEngine;
 import bluefinger4j.graphics.node.allinterfaces.IGraphicNode;
 import bluefinger4j.pixel.allinterfaces.BitmapAdapter;
 import java.util.Map;
