@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_bluefinger4j" default="compile.module.bluefinger4j">
+  <dirname property="module.bluefinger4j.basedir" file="${ant.file.module_bluefinger4j}"/>
+  
+  <property name="module.jdk.home.bluefinger4j" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.bluefinger4j" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.bluefinger4j" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.bluefinger4j" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="bluefinger4j.output.dir" value="undefined"/>
+  <property name="bluefinger4j.testoutput.dir" value="undefined"/>
+  
+  <path id="bluefinger4j.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="bluefinger4j.module.production.classpath">
+    <path refid="${module.jdk.classpath.bluefinger4j}"/>
+  </path>
+  
+  <path id="bluefinger4j.runtime.production.module.classpath"/>
+  
+  <path id="bluefinger4j.module.classpath">
+    <path refid="${module.jdk.classpath.bluefinger4j}"/>
+  </path>
+  
+  <path id="bluefinger4j.runtime.module.classpath"/>
+  
+  
+  <patternset id="excluded.from.module.bluefinger4j">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.bluefinger4j">
+    <patternset refid="excluded.from.module.bluefinger4j"/>
+  </patternset>
+  
+  
+  <target name="compile.module.bluefinger4j" depends="compile.module.bluefinger4j.production,compile.module.bluefinger4j.tests" description="Compile module Bluefinger4j"/>
+  
+  <target name="compile.module.bluefinger4j.production" depends="register.custom.compilers" description="Compile module Bluefinger4j; production classes"/>
+  
+  <target name="compile.module.bluefinger4j.tests" depends="register.custom.compilers,compile.module.bluefinger4j.production" description="compile module Bluefinger4j; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.bluefinger4j" description="cleanup module">
+    <delete dir="${bluefinger4j.output.dir}"/>
+    <delete dir="${bluefinger4j.testoutput.dir}"/>
+  </target>
+</project>
