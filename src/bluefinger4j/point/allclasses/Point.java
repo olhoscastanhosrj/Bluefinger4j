@@ -27,14 +27,21 @@
  */
 package bluefinger4j.point.allclasses;
 
+import bluefinger4j.math.parsii.eval.Parser;
+import bluefinger4j.math.parsii.eval.Scope;
+import bluefinger4j.math.parsii.tokenizer.ParseException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import bluefinger4j.point.allinterfaces.IPoint;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementação padrão da interface IPoint
+ *
  * @author renan
  */
 public class Point implements IPoint, Cloneable, Serializable {
@@ -46,12 +53,14 @@ public class Point implements IPoint, Cloneable, Serializable {
     private IPoint link;
 
     /**
-     * Cria um ponto passando as coordenadas que serão representadas por esse ponto
-     * @param x valor para o eixo x 
+     * Cria um ponto passando as coordenadas que serão representadas por esse
+     * ponto
+     *
+     * @param x valor para o eixo x
      * @param y valor para o eixo y
      * @param z valor para o eixo z
      */
-    public Point (double x, double y, double z) {
+    public Point(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -59,15 +68,16 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     /**
-     * Cria um ponto passando as coordenadas que serão representados por esse ponto
-     * e o ponto que será associado ao mesmo, o link serve para quando se deseja fazer path com 
-     * varios pontos.
+     * Cria um ponto passando as coordenadas que serão representados por esse
+     * ponto e o ponto que será associado ao mesmo, o link serve para quando se
+     * deseja fazer path com varios pontos.
+     *
      * @param x valor para o eixo x
      * @param y valor para o eixo y
      * @param z valor para o eixo z
      * @param link ponto que estara associado a essa instância
      */
-    public Point (double x, double y, double z, IPoint link) {
+    public Point(double x, double y, double z, IPoint link) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -75,14 +85,16 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     /**
-     * Cria um Point usando a posição passada nos argumentos como posição 
-     * inicial que será calculada com  a multiplicada pela escala
+     * Cria um Point usando a posição passada nos argumentos como posição
+     * inicial que será calculada com a multiplicada pela escala
+     *
      * @param x valor do eixo x
      * @param y valor do eixo y
      * @param z valor do eixo z
-     * @param scale escala que será aplicada nas coordenadas passadas para calcular a posição do ponto
+     * @param scale escala que será aplicada nas coordenadas passadas para
+     * calcular a posição do ponto
      */
-    public Point (int x, int y, int z, double scale) {
+    public Point(int x, int y, int z, double scale) {
         this.x = x * scale;
         this.y = y * scale;
         this.z = z * scale;
@@ -90,15 +102,18 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     /**
-     * Cria um ponto ataraves de um ponto de referencia (que servira de ponto de origem)
-     * onde a posição do ponto que esta sendo criado será dado pelo ponto de origem
-     * passado em pRef delocado dos valores passados nos parametros mX , mY, mZ
-     * @param ptRef ponto que servira de origem para o local que será representado por esse ponto
+     * Cria um ponto ataraves de um ponto de referencia (que servira de ponto de
+     * origem) onde a posição do ponto que esta sendo criado será dado pelo
+     * ponto de origem passado em pRef delocado dos valores passados nos
+     * parametros mX , mY, mZ
+     *
+     * @param ptRef ponto que servira de origem para o local que será
+     * representado por esse ponto
      * @param mX o quanto se deve mover do ponto de origem no eixo x
      * @param mY o quanto se deve mover do ponto de origem no eixo y
      * @param mZ o quanto se deve mover do ponto de origem no eixo z
      */
-    public Point (IPoint ptRef, int mX, int mY, int mZ) {
+    public Point(IPoint ptRef, int mX, int mY, int mZ) {
         this.x = ptRef.getX() + mX;
         this.y = ptRef.getY() + mY;
         this.z = ptRef.getZ() + mZ;
@@ -107,15 +122,18 @@ public class Point implements IPoint, Cloneable, Serializable {
 
     /**
      * Cria uma instância de Point usando o IPoint passado em pt como modelo,
-     * caso o argumento pt for null cria um ponto na coordenada 0,0,0 e com scala 1.0
-     * @param pt IPoint que será usado como modelo ou null caso se deseje criar nas coordenas 0,0,0
+     * caso o argumento pt for null cria um ponto na coordenada 0,0,0 e com
+     * scala 1.0
+     *
+     * @param pt IPoint que será usado como modelo ou null caso se deseje criar
+     * nas coordenas 0,0,0
      */
-    public Point (IPoint pt) {
+    public Point(IPoint pt) {
         if (pt != null) {
             this.x = pt.getX();
             this.y = pt.getY();
             this.z = pt.getZ();
-            
+
         } else {
             this.x = 0;
             this.y = 0;
@@ -125,32 +143,34 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     /**
-     * Cria uma instância de Point usando o IPoint passado em pt como modelo e o argumento scale para que
-     * os eixos x,y,z sejam escalados usando o valor passado
+     * Cria uma instância de Point usando o IPoint passado em pt como modelo e o
+     * argumento scale para que os eixos x,y,z sejam escalados usando o valor
+     * passado
+     *
      * @param pt IPoint que será usado como modelo
-     * @param  scale escala que será usada para esse ponto ,ou seja, o valor que será multiplicado pelo valores dos eixos do ponto pt cujo o resultado
+     * @param scale escala que será usada para esse ponto ,ou seja, o valor que
+     * será multiplicado pelo valores dos eixos do ponto pt cujo o resultado
      * sera as coordenadas x,y,z resprectivas.
      */
-    public Point (IPoint pt, double scale) {
+    public Point(IPoint pt, double scale) {
         this.x = pt.getX() * scale;
         this.y = pt.getY() * scale;
         this.z = pt.getZ() * scale;
 
     }
 
-    
-
     /**
      * Obtém o valor do eixo x desse ponto
+     *
      * @return valor do eixo x desse ponto
      */
     @Override
-    public double getX () {
+    public double getX() {
         return x;
     }
 
     @Override
-    public int getX (int scale) {
+    public int getX(int scale) {
         //utilizado o valor do eixo de forma indireta por que caso seja modificado 
         //o método esse método tambem terá o valor alterado
         //automaticamente
@@ -158,16 +178,17 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public int getX (int origin, int scale) {
+    public int getX(int origin, int scale) {
         return this.getX(scale) + origin;
     }
 
     /**
      * Obtem o valor do eixo y desse ponto
+     *
      * @return valor do eixo y desse ponto
      */
     @Override
-    public double getY () {
+    public double getY() {
         //utilizado o valor do eixo de forma indireta por que caso seja modificado 
         //o método esse método tambem terá o valor alterado
         //automaticamente
@@ -175,7 +196,7 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public int getY (int scale) {
+    public int getY(int scale) {
         //utilizado o valor do eixo de forma indireta por que caso seja modificado 
         //o método esse método tambem terá o valor alterado
         //automaticamente
@@ -183,21 +204,22 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public int getY (int origin, int scale) {
+    public int getY(int origin, int scale) {
         return this.getY(scale) + origin;
     }
 
     /**
      * Obtem o valor do eixo z desse ponto
+     *
      * @return valor do eixo z desse ponto
      */
     @Override
-    public double getZ () {
+    public double getZ() {
         return z;
     }
 
     @Override
-    public int getZ (int scale) {
+    public int getZ(int scale) {
         //utilizado o valor do eixo de forma indireta por que caso seja modificado 
         //o método esse método tambem terá o valor alterado
         //automaticamente
@@ -205,12 +227,31 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public int getZ (int origin, int scale) {
+    public int getZ(int origin, int scale) {
         return this.getZ(scale) + origin;
     }
 
     @Override
-    public IPoint atMiddle (IPoint exit) {
+    public double calculate(String eval, Map<String, Double> variables) throws ParseException {
+        Scope scope = new Scope();
+
+        Set<Map.Entry<String, Double>> vars = variables.entrySet();
+        Iterator<Map.Entry<String, Double>> it = vars.iterator();
+
+        while (it.hasNext()) {
+            Map.Entry<String, Double> entry = it.next();
+            scope.create(entry.getKey()).withValue(entry.getValue());
+        }
+
+        scope.create("x").withValue(this.x);
+        scope.create("y").withValue(this.y);
+        scope.create("z").withValue(this.z);
+
+        return Parser.parse(eval, scope).evaluate();
+    }
+
+    @Override
+    public IPoint atMiddle(IPoint exit) {
         double px = (this.getX() == 0 && exit.getX() == 0) ? 0 : ((this.getX() + exit.getX()) / 2);
         double py = (this.getY() == 0 && exit.getY() == 0) ? 0 : ((this.getY() + exit.getY()) / 2);
         double pz = (this.getZ() == 0 && exit.getZ() == 0) ? 0 : ((this.getZ() + exit.getZ()) / 2);
@@ -218,9 +259,8 @@ public class Point implements IPoint, Cloneable, Serializable {
         return new Point(px, py, pz);
     }
 
-    
     @Override
-    public int compareTo (IPoint o) {
+    public int compareTo(IPoint o) {
 
         double x1 = this.getX();
         double y1 = this.getY();
@@ -247,15 +287,14 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public Object clone () throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         Point pt = new Point(this.getX(), this.getY(), this.getZ());
-    
 
         return pt;
     }
 
     @Override
-    public boolean equals (Object o) {
+    public boolean equals(Object o) {
 
         if (o instanceof Point) {
             Point pt = (Point) o;
@@ -268,7 +307,7 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         int hash = 7;
         hash = 53 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
         hash = 53 * hash + (int) (Double.doubleToLongBits(this.y) ^ (Double.doubleToLongBits(this.y) >>> 32));
@@ -278,16 +317,17 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public String toWaveFront () {
+    public String toWaveFront() {
         return "v " + toString() + "\n";
     }
 
     /**
      * Representação textual do ponto no formato "x y z"
+     *
      * @return representação textual do ponto com os valores de x y e z
      */
     @Override
-    public String toString () {
+    public String toString() {
         DecimalFormat df = new DecimalFormat();
         String text = "";
 
@@ -305,7 +345,7 @@ public class Point implements IPoint, Cloneable, Serializable {
     }
 
     @Override
-    public String toXML () {
+    public String toXML() {
         StringBuilder sb = new StringBuilder();
         sb.append("<point ");
         sb.append(" x=\"").append(this.getX()).append("\" ");
@@ -313,15 +353,13 @@ public class Point implements IPoint, Cloneable, Serializable {
         sb.append(" x=\"").append(this.getZ()).append("\" ");
         sb.append(">\n");
 
-
-
         sb.append("</point>\n");
 
         return sb.toString();
     }
 
     @Override
-    public String toJson () {
+    public String toJson() {
 
         StringBuilder sb = new StringBuilder();
         sb.append("{\"point\":{ ");
@@ -331,25 +369,20 @@ public class Point implements IPoint, Cloneable, Serializable {
 
         sb.append("}}");
 
-
-
-
-
         return sb.toString();
 
-
     }
 
     @Override
-    public double distance (IPoint p) {
+    public double distance(IPoint p) {
         return Math.abs(
                 Math.sqrt(Math.pow(p.getX() - this.getX(), 2)
-                + Math.pow(p.getY() - this.getY(), 2)
-                + Math.pow(p.getZ() - this.getZ(), 2)));
+                        + Math.pow(p.getY() - this.getY(), 2)
+                        + Math.pow(p.getZ() - this.getZ(), 2)));
     }
 
     @Override
-    public int[] toIntArray (double scale) {
+    public int[] toIntArray(double scale) {
         int[] array = new int[3];
         array[0] = (int) Math.round(this.getX() * scale);
         array[1] = (int) Math.round(this.getY() * scale);

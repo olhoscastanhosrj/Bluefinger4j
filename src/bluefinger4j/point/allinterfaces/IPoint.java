@@ -27,6 +27,9 @@
  */
 package bluefinger4j.point.allinterfaces;
 
+import bluefinger4j.math.parsii.tokenizer.ParseException;
+import java.util.Map;
+
 /**
  * Interface que serve para ser implementada e representa um ponto esse ponto
  * pode ser associado a outro ponto formando caminhos essa associação é feita usando ou 
@@ -114,7 +117,17 @@ public interface IPoint extends Comparable<IPoint> {
      */
     public IPoint atMiddle (IPoint exit);
 
-  
+    /**
+     * Faz calculos usando as coordenadas x,y,z ,ou seja, na expressão matémática 
+     * passada no argumento eval pode conter além dos numeros esses termos citados. 
+     * Além disso é possivel passar outras variaveis por um Map passado no argumento 
+     * variables
+     * @param eval expressão matemática que se deseja calcular um resultado
+     * @param variables variaveis extras que podem ser usadas na expressão 
+     * @return retorna o valor de calculo
+     * @throws ParseException exceção chamada caso a expressão eteja com algum erro.
+     */
+     public double calculate(String eval , Map<String, Double > variables  ) throws ParseException;
    
     /**
      * Representa o ponto como uma string que corresponde a uma vertice no arquivo wavefront

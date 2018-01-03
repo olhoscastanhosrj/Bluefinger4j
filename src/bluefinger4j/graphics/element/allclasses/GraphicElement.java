@@ -44,8 +44,8 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  */
 public class GraphicElement implements IGraphicElement, Iterable<IGeometry> {
 
-    private String name;
-    private List<IGeometry> geometries;
+    private final String name;
+    private final List<IGeometry> geometries;
     
 
     /**
