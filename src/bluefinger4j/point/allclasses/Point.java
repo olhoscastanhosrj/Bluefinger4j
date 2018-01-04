@@ -234,13 +234,15 @@ public class Point implements IPoint, Cloneable, Serializable {
     @Override
     public double calculate(String eval, Map<String, Double> variables) throws ParseException {
         Scope scope = new Scope();
+        
+        if (variables != null) {
+            Set<Map.Entry<String, Double>> vars = variables.entrySet();
+            Iterator<Map.Entry<String, Double>> it = vars.iterator();
 
-        Set<Map.Entry<String, Double>> vars = variables.entrySet();
-        Iterator<Map.Entry<String, Double>> it = vars.iterator();
-
-        while (it.hasNext()) {
-            Map.Entry<String, Double> entry = it.next();
-            scope.create(entry.getKey()).withValue(entry.getValue());
+            while (it.hasNext()) {
+                Map.Entry<String, Double> entry = it.next();
+                scope.create(entry.getKey()).withValue(entry.getValue());
+            }
         }
 
         scope.create("x").withValue(this.x);
@@ -248,6 +250,10 @@ public class Point implements IPoint, Cloneable, Serializable {
         scope.create("z").withValue(this.z);
 
         return Parser.parse(eval, scope).evaluate();
+    }
+    
+    public double calculate(String eval) throws ParseException{
+        return calculate(eval,null);
     }
 
     @Override

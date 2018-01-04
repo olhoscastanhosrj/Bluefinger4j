@@ -123,12 +123,24 @@ public interface IPoint extends Comparable<IPoint> {
      * Além disso é possivel passar outras variaveis por um Map passado no argumento 
      * variables
      * @param eval expressão matemática que se deseja calcular um resultado
-     * @param variables variaveis extras que podem ser usadas na expressão 
+     * @param variables variaveis extras que podem ser usadas na expressão ou null
+     * caso não exista.
      * @return retorna o valor de calculo
      * @throws ParseException exceção chamada caso a expressão eteja com algum erro.
      */
      public double calculate(String eval , Map<String, Double > variables  ) throws ParseException;
    
+     
+    /**
+     * Faz calculos usando as coordenadas x,y,z ,ou seja, na expressão matémática 
+     * passada no argumento eval pode conter além dos numeros esses termos citados.
+     * O resultado da chamada é o mesmo que uma chamada a caculate(eval,null) sendo eval
+     * a expressão aritimética contida em uma String.
+     * @param eval expressão matemática que se deseja calcular um resultado
+     * @return retorna o valor de calculo
+     * @throws ParseException exceção chamada caso a expressão eteja com algum erro.
+     */
+     public double calculate(String eval) throws ParseException;
     /**
      * Representa o ponto como uma string que corresponde a uma vertice no arquivo wavefront
      * @return string com a setença WaveFront
