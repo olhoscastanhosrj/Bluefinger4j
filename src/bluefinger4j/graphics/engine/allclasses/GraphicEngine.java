@@ -79,15 +79,15 @@ public class GraphicEngine implements IGraphicEngine {
     
     /**
      * Dispara o driver para o mesmo processar os nodes
-     * @param driver Objeto que serve de driver, ou seja, faz algo como a saida do Bluefinger4j
+     * @param compile Objeto que serve para compilar os GraphicNode em uma saida correspondente a desejada. 
      * @return retorna this.
      */
     @Override
-    public GraphicEngine compile(IGraphicEngine.GraphicDriver driver){
+    public GraphicEngine compile(IGraphicEngine.GraphicCompile compile){
         for(int i = 0 ; i < this.root.getNodeCount(); i++){
-           driver.encode(this, this.root.getNode(i), textures);
+           compile.codify(this, this.root.getNode(i), textures);
         }
-         driver.encode(this, root, textures);
+         compile.codify(this, root, textures);
         return this;
     }
     

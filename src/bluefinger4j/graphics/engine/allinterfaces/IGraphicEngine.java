@@ -37,31 +37,37 @@ import java.util.Map;
  * @author Renan
  */
 public interface IGraphicEngine {
-    
+
     /**
-    * Driver grafico da Bluefinger4j essa é a ponte entre as classes do Bluefinger4j
-    * e os componentes externos.
-    */ 
-    public interface GraphicDriver {
+     * Driver grafico da Bluefinger4j essa é a ponte entre as classes do
+     * Bluefinger4j e os componentes externos.
+     */
+    public interface GraphicCompile {
+
         /**
-         * Codifica os dados que estão nos nodes do Bluefinger4J para os componentes externos.
+         * Codifica os dados que estão nos nodes do Bluefinger4J para os
+         * componentes externos.
+         *
          * @param context o GraphicEngine que esse driver esta associado
          * @param node node que será tratado pelo driver
-         * @param textures hash contendo o nome da textura como chave e a textura como valor. Nao é obrigatorio o uso de texturas.
+         * @param textures hash contendo o nome da textura como chave e a
+         * textura como valor. Nao é obrigatorio o uso de texturas.
          */
-        public void encode(GraphicEngine context , IGraphicNode node , Map<String,BitmapAdapter> textures );
+        public void codify(GraphicEngine context, IGraphicNode node, Map<String, BitmapAdapter> textures);
     }
-
 
     /**
      * Dispara o driver para o mesmo processar os nodes
-     * @param driver Objeto que serve de driver, ou seja, faz algo como a saida do Bluefinger4j
+     *
+     * @param compile Objeto que serve para compilar os GraphicNode em uma saida
+     * correspondente a desejada.
      * @return retorna this.
      */
-    GraphicEngine compile(GraphicDriver driver);
+    GraphicEngine compile(GraphicCompile compile);
 
     /**
      * Registra uma textura
+     *
      * @param name nome da textura
      * @param texture o BitmapAdapter que servira da textura
      * @return retorna this
@@ -70,9 +76,10 @@ public interface IGraphicEngine {
 
     /**
      * Deregistra uma textura
+     *
      * @param name nome da textura a ser removida
      * @return retorna this
      */
     GraphicEngine unregister(String name);
-    
+
 }
